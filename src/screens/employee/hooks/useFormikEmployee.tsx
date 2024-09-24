@@ -1,8 +1,12 @@
 import { useFormik } from "formik";
 import { employeeValidationSchema } from "../schemas/employee.schema";
 import { IEmployee } from "../../../interface/user/user.interface";
+import { useEmployeeStore } from "../../../store/employee.store";
+import { useNavigate } from "react-router-dom";
 
 export function useFormikEmployee() {
+  const navigate = useNavigate();
+  const addEmployee = useEmployeeStore((state) => state.addEmployee);
   const {
     handleChange,
     handleSubmit,
@@ -24,8 +28,7 @@ export function useFormikEmployee() {
     validateOnBlur: false,
     validationSchema: employeeValidationSchema,
     onSubmit: (values) => {
-      // Handle form submission
-      console.log(values);
+      addEmployee(values, () => navigate("/"));
     },
   });
 
