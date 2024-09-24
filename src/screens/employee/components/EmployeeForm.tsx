@@ -1,9 +1,18 @@
 import { Button, Input } from "@nextui-org/react";
 import { FaSave } from "react-icons/fa";
 import { useFormikEmployee } from "../hooks/useFormikEmployee";
-export function EmployeeForm() {
+import { ModeFormEnum } from "../../../enums/modeForm.enum";
+import { IEmployee } from "../../../interface/user/user.interface";
 
-  const { errors, handleSubmit, setFieldValue } = useFormikEmployee();
+interface IProps {
+  mode: ModeFormEnum,
+  initialValues?: IEmployee
+}
+export function EmployeeForm({ mode, initialValues }: IProps) {
+  const { errors, handleSubmit, setFieldValue, values } = useFormikEmployee({
+    mode,
+    initialValues: initialValues,
+  });
 
   const {
     name: nameError,
@@ -20,6 +29,7 @@ export function EmployeeForm() {
         <Input
           isInvalid={!!nameError}
           errorMessage={nameError}
+          value={values.name}
           onChange={(e) => setFieldValue("name", e.target.value)}
           label="Nombre"
           isRequired
@@ -28,6 +38,7 @@ export function EmployeeForm() {
         <Input
           isInvalid={!!lastNameError}
           errorMessage={lastNameError}
+          value={values.lastName}
           onChange={(e) => setFieldValue("lastName", e.target.value)}
           label="Apellido"
           isRequired
@@ -38,6 +49,7 @@ export function EmployeeForm() {
       <Input
         isInvalid={!!emailError}
         errorMessage={emailError}
+        value={values.email}
         onChange={(e) => setFieldValue("email", e.target.value)}
         label="Correo"
         isRequired
@@ -47,6 +59,7 @@ export function EmployeeForm() {
       <Input
         isInvalid={!!identificationError}
         errorMessage={identificationError}
+        value={values.identification}
         onChange={(e) => setFieldValue("identification", e.target.value)}
         label="Cedula"
         isRequired
@@ -56,6 +69,7 @@ export function EmployeeForm() {
       <Input
         isInvalid={!!inssError}
         errorMessage={inssError}
+        value={values.numerINSS}
         onChange={(e) => setFieldValue("numerINSS", e.target.value)}
         label="Número de INSS"
         isRequired

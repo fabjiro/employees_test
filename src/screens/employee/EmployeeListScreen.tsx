@@ -29,13 +29,17 @@ export function EmployeeListScreen() {
   const { listEmployees, deleteEmployeeById } = useEmployeeStore();
 
   // state
-  const [ employee, setEmployee ] = useState<IEmployee | undefined>();
-  const [ showConfirmModal, toggleConfirmModal ] = useToggle();
+  const [employee, setEmployee] = useState<IEmployee | undefined>();
+  const [showConfirmModal, toggleConfirmModal] = useToggle();
 
   // handlers
   const handleOnClickNewEmployee = () => {
     navigate("/nuevo");
-  }
+  };
+
+  const handleOnClickEditEmployee = (employee: IEmployee) => {
+    navigate(`/${employee.id}/editar`);
+  };
 
   const employeeBirth = (identification: string) => {
     const birthDateString = identification.split("-")[1]; // "080501"
@@ -54,12 +58,15 @@ export function EmployeeListScreen() {
     }
   };
 
-
   return (
     <BaseScreen title="Lista de empleados">
       <div className="w-full h-full flex flex-col gap-4">
         <div className="flex flex-row items-center justify-end">
-          <Button onClick={handleOnClickNewEmployee} color="primary" startContent={<FaPlus />}>
+          <Button
+            onClick={handleOnClickNewEmployee}
+            color="primary"
+            startContent={<FaPlus />}
+          >
             Nuevo empleado
           </Button>
         </div>
@@ -89,7 +96,9 @@ export function EmployeeListScreen() {
                   <TableCell>{employee.email}</TableCell>
                   <TableCell>{employee.identification}</TableCell>
                   <TableCell>{employee.numerINSS}</TableCell>
-                  <TableCell>{employeeBirth(employee.identification)}</TableCell>
+                  <TableCell>
+                    {employeeBirth(employee.identification)}
+                  </TableCell>
                   <TableCell className="flex flex-row gap-2 ">
                     <Dropdown>
                       <DropdownTrigger>
@@ -98,7 +107,11 @@ export function EmployeeListScreen() {
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem startContent={<MdEdit />} key="edit">
+                        <DropdownItem
+                          onClick={() => handleOnClickEditEmployee(employee)}
+                          startContent={<MdEdit />}
+                          key="edit"
+                        >
                           Editar
                         </DropdownItem>
                         <DropdownItem
@@ -118,7 +131,14 @@ export function EmployeeListScreen() {
             </TableBody>
           </Table>
         </div>
-        <BaseConfirmModal onOpenChange={toggleConfirmModal} onConfirm={handleDeleteEmployee} onCancel={toggleConfirmModal} isOpen={showConfirmModal} title="¿Deseas eliminar este emeplado?" description="Esta accion no se puede deshacer" />
+        <BaseConfirmModal
+          onOpenChange={toggleConfirmModal}
+          onConfirm={handleDeleteEmployee}
+          onCancel={toggleConfirmModal}
+          isOpen={showConfirmModal}
+          title="¿Deseas eliminar este emeplado?"
+          description="Esta accion no se puede deshacer"
+        />
       </div>
     </BaseScreen>
   );
