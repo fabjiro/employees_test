@@ -4,6 +4,7 @@ import App from "./App.tsx";
 import "./index.css";
 import { NextUIProvider } from "@nextui-org/react";
 import { BrowserRouter } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -11,6 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <div className="w-screen h-screen">
           <App />
+          <Toaster />
         </div>
       </BrowserRouter>
     </NextUIProvider>
