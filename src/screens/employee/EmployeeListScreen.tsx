@@ -101,7 +101,7 @@ export function EmployeeListScreen() {
               <TableColumn>FECHA NACIMIENTO</TableColumn>
               <TableColumn>ACCIONES</TableColumn>
             </TableHeader>
-            <TableBody>
+            <TableBody emptyContent="No hay datos">
               {listEmployees.map((employee, index) => (
                 <TableRow key={index}>
                   <TableCell>{employee.name}</TableCell>
