@@ -15,9 +15,16 @@ import { useEmployeeStore } from "../../store/employee.store";
 import { BaseScreen } from "../BaseScreen";
 import { FaEllipsisVertical, FaPlus } from "react-icons/fa6";
 import { MdEdit, MdDelete } from "react-icons/md";
+import moment from "moment";
 
 export function EmployeeListScreen() {
   const employeeList = useEmployeeStore((state) => state.listEmployees);
+
+  const employeeBirth = (identification: string) => {
+    const birthDateString = identification.split("-")[1]; // "080501"
+
+    return moment(birthDateString, "DDMMYY").format("DD/MM/YYYY");
+  };
 
   return (
     <BaseScreen title="Lista de empleados">
@@ -53,7 +60,7 @@ export function EmployeeListScreen() {
                   <TableCell>{employee.email}</TableCell>
                   <TableCell>{employee.identification}</TableCell>
                   <TableCell>{employee.numerINSS}</TableCell>
-                  <TableCell>JUELA</TableCell>
+                  <TableCell>{employeeBirth(employee.identification)}</TableCell>
                   <TableCell className="flex flex-row gap-2 ">
                     <Dropdown>
                       <DropdownTrigger>
