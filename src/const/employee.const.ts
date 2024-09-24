@@ -13,6 +13,6 @@ export const EmployeeList: IEmployee[] = [
     lastName: "Tyson",
     email: "kimetyson@example.com",
     identification: "023-010904-1000S",
-    numerINSS: "1234567890",
+    numerINSS: "2234567890",
   },
 ];

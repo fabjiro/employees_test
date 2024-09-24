@@ -4,5 +4,4 @@ export interface IEmployee {
   email: string;
   identification: string;
   numerINSS: string;
-  dateOfBirth?: Date;
 }
