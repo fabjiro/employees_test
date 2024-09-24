@@ -20,8 +20,11 @@ import { IEmployee } from "../../interface/user/user.interface";
 import { useState } from "react";
 import { useToggle } from "../../hooks/useToggle.hook";
 import { BaseConfirmModal } from "../../components/BaseConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 export function EmployeeListScreen() {
+  const navigate = useNavigate();
+
   // store
   const { listEmployees, deleteEmployeeById } = useEmployeeStore();
 
@@ -30,6 +33,10 @@ export function EmployeeListScreen() {
   const [ showConfirmModal, toggleConfirmModal ] = useToggle();
 
   // handlers
+  const handleOnClickNewEmployee = () => {
+    navigate("/nuevo");
+  }
+
   const employeeBirth = (identification: string) => {
     const birthDateString = identification.split("-")[1]; // "080501"
     return moment(birthDateString, "DDMMYY").format("DD/MM/YYYY");
@@ -42,7 +49,7 @@ export function EmployeeListScreen() {
 
   const handleDeleteEmployee = () => {
     if (employee) {
-      deleteEmployeeById(employee.id);
+      deleteEmployeeById(employee.id ?? 0);
       toggleConfirmModal();
     }
   };
@@ -52,7 +59,7 @@ export function EmployeeListScreen() {
     <BaseScreen title="Lista de empleados">
       <div className="w-full h-full flex flex-col gap-4">
         <div className="flex flex-row items-center justify-end">
-          <Button color="primary" startContent={<FaPlus />}>
+          <Button onClick={handleOnClickNewEmployee} color="primary" startContent={<FaPlus />}>
             Nuevo empleado
           </Button>
         </div>
