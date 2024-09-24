@@ -16,15 +16,37 @@ import { BaseScreen } from "../BaseScreen";
 import { FaEllipsisVertical, FaPlus } from "react-icons/fa6";
 import { MdEdit, MdDelete } from "react-icons/md";
 import moment from "moment";
+import { IEmployee } from "../../interface/user/user.interface";
+import { useState } from "react";
+import { useToggle } from "../../hooks/useToggle.hook";
+import { BaseConfirmModal } from "../../components/BaseConfirmModal";
 
 export function EmployeeListScreen() {
-  const employeeList = useEmployeeStore((state) => state.listEmployees);
+  // store
+  const { listEmployees, deleteEmployeeById } = useEmployeeStore();
 
+  // state
+  const [ employee, setEmployee ] = useState<IEmployee | undefined>();
+  const [ showConfirmModal, toggleConfirmModal ] = useToggle();
+
+  // handlers
   const employeeBirth = (identification: string) => {
     const birthDateString = identification.split("-")[1]; // "080501"
-
     return moment(birthDateString, "DDMMYY").format("DD/MM/YYYY");
   };
+
+  const handleConfirmDeleteEmployee = (employee: IEmployee) => {
+    setEmployee(employee);
+    toggleConfirmModal();
+  };
+
+  const handleDeleteEmployee = () => {
+    if (employee) {
+      deleteEmployeeById(employee.id);
+      toggleConfirmModal();
+    }
+  };
+
 
   return (
     <BaseScreen title="Lista de empleados">
@@ -53,7 +75,7 @@ export function EmployeeListScreen() {
               <TableColumn>ACCIONES</TableColumn>
             </TableHeader>
             <TableBody>
-              {employeeList.map((employee, index) => (
+              {listEmployees.map((employee, index) => (
                 <TableRow key={index}>
                   <TableCell>{employee.name}</TableCell>
                   <TableCell>{employee.lastName}</TableCell>
@@ -77,6 +99,7 @@ export function EmployeeListScreen() {
                           color="danger"
                           key="edit"
                           startContent={<MdDelete />}
+                          onClick={() => handleConfirmDeleteEmployee(employee)}
                         >
                           Eliminar
                         </DropdownItem>
@@ -88,6 +111,7 @@ export function EmployeeListScreen() {
             </TableBody>
           </Table>
         </div>
+        <BaseConfirmModal onOpenChange={toggleConfirmModal} onConfirm={handleDeleteEmployee} onCancel={toggleConfirmModal} isOpen={showConfirmModal} title="¿Deseas eliminar este emeplado?" description="Esta accion no se puede deshacer" />
       </div>
     </BaseScreen>
   );

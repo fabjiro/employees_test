@@ -2,6 +2,7 @@ import { IEmployee } from "../interface/user/user.interface";
 
 export const EmployeeList: IEmployee[] = [
   {
+    id: 1,
     name: "John",
     lastName: "Doe",
     email: "X4YXO@example.com",
@@ -9,6 +10,7 @@ export const EmployeeList: IEmployee[] = [
     numerINSS: "1234567890",
   },
   {
+    id: 2,
     name: "Mike",
     lastName: "Tyson",
     email: "kimetyson@example.com",
