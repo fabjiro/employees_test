@@ -21,6 +21,7 @@ import { useState } from "react";
 import { useToggle } from "../../hooks/useToggle.hook";
 import { BaseConfirmModal } from "../../components/BaseConfirmModal";
 import { useNavigate } from "react-router-dom";
+import { FaBug } from "react-icons/fa";
 
 export function EmployeeListScreen() {
   const navigate = useNavigate();
@@ -33,6 +34,10 @@ export function EmployeeListScreen() {
   const [showConfirmModal, toggleConfirmModal] = useToggle();
 
   // handlers
+  const handleOnClickApi = () => {
+    navigate("/api");
+  };
+
   const handleOnClickNewEmployee = () => {
     navigate("/nuevo");
   };
@@ -61,7 +66,15 @@ export function EmployeeListScreen() {
   return (
     <BaseScreen title="Lista de empleados">
       <div className="w-full h-full flex flex-col gap-4">
-        <div className="flex flex-row items-center justify-end">
+        <div className="flex flex-row items-center justify-end gap-4">
+          <Button
+            onClick={handleOnClickApi}
+            startContent={<FaBug />}
+            variant="flat"
+            color="primary"
+          >
+            api
+          </Button>
           <Button
             onClick={handleOnClickNewEmployee}
             color="primary"
